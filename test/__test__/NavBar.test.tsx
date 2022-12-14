@@ -10,15 +10,28 @@ import 'setimmediate'
 
 initTestHelpers()
 
-describe('Navigation by Link', () => {
-    it('Should route to selected page in navbar', async () => {
+
+describe('Layoutのページリンクが正しく動くか', () => {
+    it('Should route to selected page in navbar', async () => { // asyncする
         const { page } = await getPage({
-            route: '/index',
+            route: '/index', // indexページに到達
         })
-        render(page)
+        render(page) // renderする
 
         userEvent.click(screen.getByTestId('blog-nav'))
-        expect(await screen.findByText('Blog page')).toBeInTheDocument()
+        expect(await screen.findByText('blog page')).toBeInTheDocument()
+        //screen.debug() // 20行目のクリックにて、正しくblogページへ飛んでいるのを確認できた。
 
+        userEvent.click(screen.getByTestId('comment-nav'))// コメントへのリンククリック
+        expect(await screen.findByText('Comment page')).toBeInTheDocument() // テキストの発見
+
+        userEvent.click(screen.getByTestId('context-nav'))
+        expect(await screen.findByText('Context page')).toBeInTheDocument()
+
+        userEvent.click(screen.getByTestId('task-nav'))
+        expect(await screen.findByText('Task page')).toBeInTheDocument()
+
+        userEvent.click(screen.getByTestId('home-nav'))
+        expect(await screen.findByText('Welcome to Nextjs')).toBeInTheDocument()
     })
 })

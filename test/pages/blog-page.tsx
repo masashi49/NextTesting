@@ -3,7 +3,7 @@ const BlogPage: React.FC = () => {
     return (
         <Layout title="Blog">
             <p className="text-4xl">
-                Blog page
+                blog page
             </p>
         </Layout>
     )
