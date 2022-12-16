@@ -1,7 +1,7 @@
 //記事詳細ページ
 import Link from 'next/link'
 import Layout from '../../components/Layout'
-import { getAllPostData, getAllPostIds } from '../../lib/fetch'
+import { getAllPostIds, getPostData } from '../../lib/fetch'
 import { POST } from '../../types/Types'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
@@ -26,5 +26,19 @@ export default PostDetail
 
 // SSGを書いていく↓
 export const getStaticPaths: GetStaticPaths = async () => {
+    const paths = await getAllPostIds()
+    return {
+        paths,
+        fallback: false
+    }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+    const post = await getPostData(ctx.params.id as string)
+    return {
+        props: {
+            ...post
+        }
+    }
 
 }
