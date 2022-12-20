@@ -1,3 +1,4 @@
+import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -5,7 +6,32 @@ import Image from 'next/image'
 interface TITLE {
     title: string
 }
+
+const buttons = [
+    {
+        id: 1,
+        name: "トヨタ",
+        check: false
+    },
+    {
+        id: 2,
+        name: "ホンダ",
+        check: false
+    },
+    {
+        id: 3,
+        name: "すずき",
+        check: false
+    }
+]
+
+
 const Layout: React.FC<TITLE> = ({ children, title = 'Nextjs' }) => {
+
+    const onChange = (e) => {
+        
+    }
+
     return (
         <div className="flex justify-center items-center flex-col min-h-screen font-mono">
             <Head>
@@ -74,6 +100,16 @@ const Layout: React.FC<TITLE> = ({ children, title = 'Nextjs' }) => {
                     <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
                 </a>
             </footer>
+
+            <div>
+                {buttons.map(({ id, name, check }) => (
+                    <div key={id}>
+                        <input type="checkbox" id={name} onChange={onChange} />
+                        <label htmlFor={name}>{name}</label>
+                    </div>
+                ))}
+            </div>
+
         </div>
     )
 }
