@@ -102,7 +102,30 @@ describe('ブログの記事ページ', () => {
         // blog-pageをレンダリングする(お約束コード)
         render(page)
 
-        expect(await screen.getByText('bummy title 1')).toBeInTheDocument() // awaitでレンダリングを待つ。
-        screen.debug()
+        expect(await screen.findByText('bummy title 1')).toBeInTheDocument() // awaitでレンダリングを待つ。
+        expect(screen.getByText('bummuy body 1')).toBeInTheDocument() // awaitでレンダリングを待つ。
+        //screen.debug()
+    })
+    it("idが2用にレンダーされるはず", async () => {
+        // まずはblog-pageにアクセス(お約束コード)
+        const { page } = await getPage(
+            { route: "/posts/2", }
+        )
+        // blog-pageをレンダリングする(お約束コード)
+        render(page)
+
+        expect(await screen.findByText('bummy title 2')).toBeInTheDocument() // awaitでレンダリングを待つ。
+        expect(screen.getByText('bummuy body 2')).toBeInTheDocument() // awaitでレンダリングを待つ。
+        //screen.debug()
+    })
+    it("idが2にて、戻るボタンを押せばblogページが表示されるはず", async () => {
+        const { page } = await getPage(
+            { route: "/posts/2", }
+        )
+        render(page)
+        // まずはテキストが表示されるのを待つ。
+        await screen.findByText("bummy title 2")
+        userEvent.click(screen.getByTestId('back-blog')) // 1行上でawaitしているので、await不要
+        expect(await screen.findByText('blog page')).toBeInTheDocument()
     })
 })
