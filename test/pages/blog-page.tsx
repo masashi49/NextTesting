@@ -32,9 +32,11 @@ export const getStaticProps: GetStaticProps = async () => {
 2 : 投稿データはBlogPageのpropsに渡され、そのデータをmapする。
 
 
+getStaticProps : SSG
+ビルド時、データとセットで行われるので、javascriptを無効化されていてもデータが出る。
 
-
-
-
-
+useSWR : クライアントサイドのデータフェッチ
+ユーザーのブラウザでjsが時効されるので、js無効だと動かない
+ - ユーザーのアクセスのたびに最新のデータを取得したい時
+ 
 */
