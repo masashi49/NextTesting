@@ -9,7 +9,8 @@ import { setupServer } from 'msw/node'
 import CommentPage from '../pages/comment-page' // 今回のテスト対象
 
 const server = setupServer(
-    rest.get('https://jsonplaceholder.typicode.com/comments/?_limit=10',
+    rest.get(
+        'https://jsonplaceholder.typicode.com/comments/?_limit=10',
         (req, res, ctx) => {
             return res(
                 ctx.status(200),
@@ -17,20 +18,21 @@ const server = setupServer(
                     {
                         postId: 1,
                         id: 1,
-                        name: '1name',
-                        email: 'gmail.com',
-                        body: 'body',
+                        name: 'A',
+                        email: 'dummya@gmail.com',
+                        body: 'test body 1',
                     },
                     {
                         postId: 2,
                         id: 2,
-                        name: '2name',
-                        email: 'gmail.com',
-                        body: 'body',
-                    }
+                        name: 'B',
+                        email: 'dummyb@gmail.com',
+                        body: 'test body b',
+                    },
                 ])
             )
-        })
+        }
+    )
 )
 
 // このテストファイルの一番最初に実行する
@@ -47,4 +49,35 @@ afterEach(() => {
 // このファイルのテストが終了した時に実行
 afterAll(() => {
     server.close()
+})
+
+describe("comment page", () => {
+    it("成功したとき", async () => {
+        // コメントページを連打レンダリングする。今回はcommentページの子コンポーネントなのでページに到着部分は書かない。
+        render(
+            <SWRConfig value={{ dedupingInterval: 0 }}> {/*valueにはoptionを与える*/}
+                <CommentPage />{/* useSWRなので、propsを受け取っているわけではない */}
+            </SWRConfig>
+        )
+        expect(await screen.findByText('1: test body 1')).toBeInTheDocument() // テキストの一部でなく、完全一致にする。
+        expect(await screen.findByText('2: test body b')).toBeInTheDocument()
+    })
+
+    it("失敗したとき", async () => {
+        // 失敗させる : サーバーstatusの上書き
+        server.use(
+            rest.get('https://jsonplaceholder.typicode.com/comments/?_limit=10', (
+                req, res, ctx
+            ) => {
+                return res(ctx.status(400))
+            })
+        )
+
+        render(
+            <SWRConfig value={{ dedupingInterval: 0 }}>
+                <CommentPage />
+            </SWRConfig>
+        )
+        expect(await screen.findByText('error!')).toBeInTheDocument()
+    })
 })

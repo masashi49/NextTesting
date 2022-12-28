@@ -29,7 +29,7 @@ const buttons = [
 const Layout: React.FC<TITLE> = ({ children, title = 'Nextjs' }) => {
 
     const onChange = (e) => {
-        
+
     }
 
     return (
@@ -101,14 +101,14 @@ const Layout: React.FC<TITLE> = ({ children, title = 'Nextjs' }) => {
                 </a>
             </footer>
 
-            <div>
+            {/* <div>
                 {buttons.map(({ id, name, check }) => (
                     <div key={id}>
                         <input type="checkbox" id={name} onChange={onChange} />
                         <label htmlFor={name}>{name}</label>
                     </div>
                 ))}
-            </div>
+            </div> */}
 
         </div>
     )
