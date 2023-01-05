@@ -10,7 +10,7 @@ import CommentPage from '../pages/comment-page' // 今回のテスト対象
 
 const server = setupServer(
     rest.get(
-        'https://jsonplaceholder.typicode.com/comments/?_limit=10',
+        'https://jsonplaceholder.typicode.com/comments/?_limit=10', // このpathに対するモックを作成する
         (req, res, ctx) => {
             return res(
                 ctx.status(200),
@@ -53,7 +53,6 @@ afterAll(() => {
 
 describe("comment page", () => {
     it("成功したとき", async () => {
-        // コメントページを連打レンダリングする。今回はcommentページの子コンポーネントなのでページに到着部分は書かない。
         render(
             <SWRConfig value={{ dedupingInterval: 0 }}> {/*valueにはoptionを与える*/}
                 <CommentPage />{/* useSWRなので、propsを受け取っているわけではない */}
@@ -79,5 +78,7 @@ describe("comment page", () => {
             </SWRConfig>
         )
         expect(await screen.findByText('error!')).toBeInTheDocument()
+
+
     })
 })
