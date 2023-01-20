@@ -10,6 +10,7 @@
     "test": "jest --env=jsdom --verbose"
   },
   "dependencies": {
+    "@testing-library/react-hooks": "^8.0.1",
     "autoprefixer": "^10.2.1",
     "axios": "^0.21.1",
     "msw": "^0.25.0",
@@ -18,6 +19,7 @@
     "postcss": "^8.2.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-test-renderer": "^18.2.0",
     "setimmediate": "^1.0.5",
     "swr": "^0.4.0",
     "tailwindcss": "^2.0.2"
